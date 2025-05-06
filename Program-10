@@ -1,0 +1,27 @@
+from queue import PriorityQueue
+
+def a_star(start, goal, graph, h):
+    open_set = PriorityQueue()
+    open_set.put((0, start))
+    came_from = {}
+    g = {start: 0}
+
+    while not open_set.empty():
+        _, current = open_set.get()
+        if current == goal:
+            path = []
+            while current:
+                path.append(current)
+                current = came_from.get(current)
+            return path[::-1]
+        for neighbor, cost in graph[current]:
+            new_cost = g[current] + cost
+            if neighbor not in g or new_cost < g[neighbor]:
+                g[neighbor] = new_cost
+                f = new_cost + h(neighbor)
+                open_set.put((f, neighbor))
+                came_from[neighbor] = current
+
+graph = {'A': [('B', 1), ('C', 4)], 'B': [('D', 1)], 'C': [('D', 1)], 'D': []}
+h = lambda x: 0  # Heuristic
+print(a_star('A', 'D', graph, h))
