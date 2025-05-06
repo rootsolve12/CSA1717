@@ -1,0 +1,25 @@
+def is_valid(state, neighbors, color, country):
+    return all(state.get(n) != color for n in neighbors[country])
+
+def color_map(countries, neighbors, colors):
+    def assign(state, idx):
+        if idx == len(countries):
+            return state
+        country = countries[idx]
+        for color in colors:
+            if is_valid(state, neighbors, color, country):
+                state[country] = color
+                result = assign(state, idx + 1)
+                if result:
+                    return result
+                del state[country]
+        return None
+
+    result = assign({}, 0)
+    print(result)
+
+countries = ['WA', 'NT', 'SA', 'Q', 'NSW', 'V', 'T']
+neighbors = {'WA': ['NT', 'SA'], 'NT': ['WA', 'SA', 'Q'], 'SA': ['WA', 'NT', 'Q', 'NSW', 'V'],
+             'Q': ['NT', 'SA', 'NSW'], 'NSW': ['SA', 'Q', 'V'], 'V': ['SA', 'NSW'], 'T': []}
+colors = ['red', 'green', 'blue']
+color_map(countries, neighbors, colors)
