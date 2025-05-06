@@ -1,0 +1,21 @@
+from collections import deque
+
+def water_jug(a, b, target):
+    visited = set()
+    queue = deque([(0, 0)])
+    while queue:
+        x, y = queue.popleft()
+        if x == target or y == target:
+            print(f"Solution: {x}, {y}")
+            return
+        if (x, y) in visited:
+            continue
+        visited.add((x, y))
+        queue.extend([
+            (a, y), (x, b), (0, y), (x, 0),
+            (min(x + y, a), y - (min(x + y, a) - x)) if y else (x, y),
+            (x - (min(x + y, b) - y), min(x + y, b)) if x else (x, y)
+        ])
+    print("No solution.")
+
+water_jug(4, 3, 2)
