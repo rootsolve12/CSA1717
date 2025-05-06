@@ -1,0 +1,25 @@
+from collections import deque
+
+def is_valid(state):
+    m, c, b = state
+    return (0 <= m <= 3 and 0 <= c <= 3 and (m == 3 or m >= c) and (3 - m == 3 or 3 - m >= 3 - c))
+
+def missionaries_cannibals():
+    visited = set()
+    queue = deque([((3, 3, 1), [])])
+    moves = [(1,0), (2,0), (0,1), (0,2), (1,1)]
+
+    while queue:
+        (m, c, b), path = queue.popleft()
+        if (m, c, b) == (0, 0, 0):
+            print("Solution:", path)
+            return
+        if (m, c, b) in visited:
+            continue
+        visited.add((m, c, b))
+        for dm, dc in moves:
+            nm, nc, nb = (m - dm, c - dc, 0) if b else (m + dm, c + dc, 1)
+            if is_valid((nm, nc, nb)):
+                queue.append(((nm, nc, nb), path + [(nm, nc, nb)]))
+
+missionaries_cannibals()
