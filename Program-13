@@ -1,0 +1,37 @@
+def minimax(board, depth, is_max):
+    scores = {'X': 1, 'O': -1, 'tie': 0}
+    winner = check(board)
+    if winner:
+        return scores[winner]
+    if is_max:
+        best = -float('inf')
+        for i in range(3):
+            for j in range(3):
+                if board[i][j] == " ":
+                    board[i][j] = "X"
+                    best = max(best, minimax(board, depth + 1, False))
+                    board[i][j] = " "
+        return best
+    else:
+        best = float('inf')
+        for i in range(3):
+            for j in range(3):
+                if board[i][j] == " ":
+                    board[i][j] = "O"
+                    best = min(best, minimax(board, depth + 1, True))
+                    board[i][j] = " "
+        return best
+
+def check(board):
+    for row in board:
+        if row[0] != " " and all(x == row[0] for x in row):
+            return row[0]
+    for col in zip(*board):
+        if col[0] != " " and all(x == col[0] for x in col):
+            return col[0]
+    if all(board[i][i] == board[0][0] != " " for i in range(3)) or \
+       all(board[i][2-i] == board[0][2] != " " for i in range(3)):
+        return board[0][0]
+    if all(board[i][j] != " " for i in range(3) for j in range(3)):
+        return 'tie'
+    return None
