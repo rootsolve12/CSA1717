@@ -1,0 +1,8 @@
+def vacuum_world(states):
+    for room, status in states.items():
+        if status == "dirty":
+            print(f"Cleaning {room}")
+            states[room] = "clean"
+    print("Final State:", states)
+
+vacuum_world({"A": "dirty", "B": "clean"})
