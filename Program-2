@@ -1,0 +1,21 @@
+def solve_n_queens(n=8):
+    def is_safe(queens, row, col):
+        for r in range(row):
+            if queens[r] == col or abs(queens[r] - col) == abs(r - row):
+                return False
+        return True
+
+    def solve(row, queens=[]):
+        if row == n:
+            return queens
+        for col in range(n):
+            if is_safe(queens, row, col):
+                res = solve(row + 1, queens + [col])
+                if res: return res
+        return None
+
+    solution = solve(0)
+    for r in solution:
+        print("." * r + "Q" + "." * (n - r - 1))
+
+solve_n_queens()
