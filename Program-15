@@ -1,0 +1,7 @@
+def decision_tree(data):
+    pos = sum(1 for d in data if d[1] == "Yes")
+    neg = len(data) - pos
+    print("Yes:" if pos > neg else "No:")
+
+data = [("Rainy", "No"), ("Sunny", "Yes"), ("Overcast", "Yes"), ("Rainy", "No")]
+decision_tree(data)
